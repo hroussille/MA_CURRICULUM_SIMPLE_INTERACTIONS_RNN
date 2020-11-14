@@ -1,0 +1,112 @@
+training:
+  n_train: 1
+  mode: "CPU"
+
+env:
+    env_name: 'simple_interactions'
+    synchronized_activations: True
+    with_finish_zone: True
+
+    env_obs_teachers:
+      - 21
+      - 21
+      - 21
+
+    env_obs_learners:
+      - 20
+      - 20
+      - 20
+
+self_play:
+    BC:
+      - "BC/actor_0.pth"
+      - "BC/actor_1.pth"
+      - "BC/actor_2.pth"
+
+    episodes: 150000
+    exploration_episodes: 10000
+    exploration_stop_probability: 0.5
+    exploration_set_probability: 0.5
+    tolerance: 0.2
+    stop_update_freq: 16
+    set_update_freq: 16
+    set2_update_freq: 16
+    test_freq: 100
+    test_episodes: 100
+    mode: "repeat"
+    shuffle: False
+    max_timestep_strategy: fixed
+    ma_window_length: 50
+    ma_multiplier: 4
+    ma_default_value: 4
+    ma_bias: 4
+    max_timestep: 30
+    max_timestep_bob: 30
+    max_timestep_alice: 30
+    self_play_gamma: 0.1
+    alternate: False
+    alternate_step: 100
+
+target_play:
+    exploration_episodes: 0
+    episodes: 0
+    shuffle: False
+    test_freq: 100
+    test_episodes: 100
+    max_timestep: 50
+
+teachers:
+    gamma: 0.99
+    tau: 0.01
+    lr_actor: 0.0002
+    lr_critic: 0.0002
+    weight_decay: 0.00001
+    batch_size: 64
+    alpha: 0.5
+    noise: 0.01
+    noise_decay: 0.9999
+    subpolicies: 3
+    action_shape: 2
+    replay_buffer_size: 750000
+    replay_buffer_type: "per"
+    max_action: 1
+    min_action: -1
+    teacher: True
+
+learners:
+    gamma: 0.99
+    tau: 0.01
+    lr_actor: 0.0002
+    lr_critic: 0.0002
+    weight_decay: 0.00001
+    batch_size: 64
+    noise: 0.05
+    noise_decay: 0.9999
+    subpolicies: 3
+    action_shape: 2
+    replay_buffer_size: 750000
+    replay_buffer_type: "per"
+    max_action: 1
+    min_action: -1
+
+stop:
+    state_dim: 126
+    action_dim: 3
+    lr_actor_rnn: 0.001
+    lr_critic_rnn: 0.001
+    lr_actor: 0.0005
+    lr_critic: 0.0005
+    hidden_state_dim: 128
+    weight_decay: 0.00001
+    continuous: False
+    normalize_advantage: False
+    gamma: 0.99
+    tau: 0.95
+    batch_size: rollout
+    update_step: 128
+    target_kl: 0.05
+    clip: 0.05
+    use_gae: False
+    K_policy: 4
+    K_value: 4
+    entropy_factor: 0.01
